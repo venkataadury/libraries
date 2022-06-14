@@ -1,0 +1,9 @@
+nection itself. This way you can have connection endpoints avoid impassable land or player areas, for instance.\par
+\pard\fi720\par
+\pard\b rmSetConnectionWidth(int connectionID, float width, float variance): Sets the width of a connection.\par
+\b0\tab Because connections are often the only pathable area over a barrier such as water or rock, set this wide enough to prevent pathing problems, typically > 8.\par
+\par
+\b rmSetConnectionBaseHeight(int connectionID, float width): Sets the base height of a connection.\par
+rmSetConnectionCoherence(int connectionID, float width): Sets area coherence (0-1).\par
+rmSetConnectionWarnFailure(int connectionID, bool warn): Sets whether a connection warns on failure.\par
+rmSetConnectionHeightBlend(int connectionID, float width): Sets how smoothly connection height blends into s

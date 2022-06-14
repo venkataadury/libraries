@@ -1,0 +1,53 @@
+nnect FRONTABDOMEN heroglow hotspot
+				}
+				version
+				{
+					Visual Hero G Belerophon_boredC
+					Connect FRONTABDOMEN heroglow hotspot
+				}
+			}
+		}
+		SetSelector
+		{
+			set hotspot
+			{
+				version
+				{
+					Visual hero g belerophon_carryidle
+					Connect FRONTABDOMEN heroglow hotspot
+				}
+			}
+		}
+   }
+}
+
+//==============================================================================
+anim Walk
+{
+   SetSelector
+   {
+		ContainLogic
+		SetSelector
+		{
+			set hotspot
+			{
+				version
+				{
+					Visual Hero G Belerophon_walkA
+					Connect FRONTABDOMEN heroglow hotspot
+					tag FootstepLeft 0.05 true   
+					tag FootstepRight 0.00 true   
+					tag FootstepLeft 0.35 true   
+					tag FootstepRight 0.30 true
+				}
+			}
+		}
+		SetSelector
+		{
+			set hotspot
+			{
+				version
+				{
+					Visual Hero G Belerophon_carry
+					Connect FRONTABDOMEN heroglow hotspot
+					tag 

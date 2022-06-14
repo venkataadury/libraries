@@ -1,0 +1,6 @@
+# Macro to increase HP by 3 if HP less than half on initial HP
+# Data: HP (int), MaxHP (int)
+
+if {HP} <= {MaxHP}/2
+	set HP {HP}+3
+endif

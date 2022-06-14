@@ -1,0 +1,14 @@
+Macro processor for java
+
+General Macro syntax
+	command <args>
+
+Some commands
+
+	set <var_name> <var_val>
+		var_val can also be an expression, or direct value. This method is used to set values to received variables from system. (NOT LOCALLY DEFINED VARIABLES [See "var"])
+	var <var_name> <var_val>
+		var_val can also be an expression, or direct value. This method is used to cread local variables. If the variable exists, its value changes.
+	deletevar <var_name>
+		Deletes the local variable with this name. No error if variable is not found.
+
