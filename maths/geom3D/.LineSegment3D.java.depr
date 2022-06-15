@@ -1,0 +1,54 @@
+package maths.geom3D;
+import commons.*;
+import java.awt.*;
+import maths.Maths;
+
+public class LineSegment3D extends Line3D implements Plottable3D
+{
+	protected double length=0;
+	protected Point3D midP=null;
+	protected String nam="Line";
+	public LineSegment3D(Point3D p1,Point3D p2)
+	{
+		super(p1,p2);
+		length=p1.distance(p2);
+		midP=p1.midPoint(p2);
+	}
+	
+	public double getLen()
+	{
+		return length;
+	}
+	public Point3D getMidPoint()
+	{
+		return midP;
+	}
+	public Point3D[] getPoints()
+	{
+		return new Point3D[] {exPt1,exPt2};
+	}
+	public boolean isClosed()
+	{
+		return false;
+	}
+	public int getDims()
+	{
+		return 1;
+	}
+	public boolean[] getFrame()
+	{
+		return super.getFrame();
+	}
+	public Point3D getTextPoint()
+	{
+		return getMidPoint();
+	}
+	public void setName(String n)
+	{
+		nam=n;
+	}
+	public String getName()
+	{
+		return nam;
+	}
+}

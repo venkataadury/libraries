@@ -1,0 +1,131 @@
+package maths.geom3D;
+import java.awt.*;
+import commons.*;
+import draw.AWT;
+import maths.Maths;
+public class Graphics3D extends Canvas
+{
+	int w,h;
+	public double[] range=new double[] {1,1,1}; // x, y, z
+	public Graphics3D() {}
+	public Graphics3D(int W,int H)
+	{
+		super();
+		w=W; h=H;
+		this.setSize(w,h);
+		this.setVisible(true);
+		//this.addWindowListener(AWT.WINPROPS);
+		this.setBackground(Color.white);
+		drawFrame(this.getGraphics());
+	}
+	public void init()
+	{
+		drawFrame(this.getGraphics());
+	}
+	public void clear(Graphics g)
+	{
+		if(g==null)
+			return;
+		g.clearRect(0,0,w,h);
+		init();
+	}
+	private void drawFrame(Graphics g)
+	{
+		if(g==null)
+		{
+			return;
+		}
+		g.setColor(Color.black);
+		g.fillRect(w/3,0,5,(2*h)/3);
+		g.fillRect(w/3,(2*h)/3,(2*w)/3,5);
+		g.drawLine(0,h,(w)/3,(2*h)/3);
+		g.fillPolygon(new int[] {0,2,w/3+2,w/3-2},new int[] {h-2,h,(2*h)/3+2,(2*h)/3-2},4);
+		g.setFont(AWT.tinyfont);
+		g.drawString("O",w/3-5,(2*h)/3-5);
+	}
+	public void setBounds(int x,int y,int wi,int he)
+	{
+		super.setBounds(x,y,wi,he);
+		w=wi; h=he;
+		clear(this.getGraphics());
+	}
+	public void plot(Point3D p3d)
+	{
+		plot(p3d,"P*");
+	}
+	/*public void plot(Point3D p3d,String name)
+	{
+		if((this.getGraphics())==null)
+		{
+			X.sopln("NULL","red");
+			return;
+		}
+		double xt;
+		xt=Math.sqrt((p3d.z*p3d.z)/2D);
+		int xp,yp;
+		xp=(int)p3d.x+w/3;
+		yp=-((int)p3d.y)+(2*h)/3;
+		xp-=(int)xt;
+		yp+=(int)xt;
+		X.sopln("Plot: ("+xp+","+yp+")");
+		(this.getGraphics()).setColor(Color.red);
+		(this.getGraphics()).drawLine(xp,yp,xp+1,yp+1);
+		(this.getGraphics()).setFont(AWT.tinyfont);
+		(this.getGraphics()).drawString(name,xp+5,yp);
+	}*/
+	
+	public java.awt.Point getPlot(Point3D p3d)
+	{
+		double xt;
+		xt=Math.sqrt((p3d.z*p3d.z*range[2]*range[2])/2D);
+		int xp,yp;
+		xp=(int)(p3d.x*range[0])+w/3;
+		yp=-((int)(p3d.y*range[1]))+(2*h)/3;
+		xp-=(int)xt;
+		yp+=(int)xt;
+		return new Point(xp,yp);
+	}
+	public void plot(Plottable3D ptb,String name)
+	{
+		ptb.setName(name);
+		plot(ptb);
+	}
+	public void plot(Plottable3D ptb)
+	{
+		Color cg=Color.black;
+		if(ptb.getDims()!=1)
+		{
+			X.sopln(ptb.getDims());
+			drawPlottable(this.getGraphics(),ptb,cg);
+		}
+		else
+			drawPlottable(this.getGraphics(),ptb,Core3D.getColorByFrame(ptb.getFrame()));
+	}
+	public void drawPlottable(Graphics g,Plottable3D ptb,Color c)
+	{
+		g.setColor(c);
+		Point3D[] path=ptb.getPoints();
+		Point[] dp=new Point[path.length];
+		for(int i=0;i<path.length;i++)
+			dp[i]=getPlot(path[i]);
+		AWT.tracePath(g,dp,c);
+		Point txt=getPlot(ptb.getTextPoint());
+		g.drawString(ptb.getName(),txt.x,txt.y);
+	}
+	public void setrangeX(double r)
+	{
+		range[0]=r;
+	}
+	public void setrangeY(double r)
+	{
+		range[1]=r;
+	}
+	public void setRangeZ(double r)
+	{
+		range[2]=r;
+	}
+	public void setRange(double[] r)
+	{
+		range=r;
+	}
+}

@@ -1,0 +1,5 @@
+here -> commons,draw,maths
+equations -> commons,draw,maths
+geom3D -> commons,draw,maths,physics
+matrices -> commons,maths
+sets -> commons,draw,maths
