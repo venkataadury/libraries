@@ -1,0 +1,161 @@
+Note: It works best on linux-based operating systems.
+
+MOVEMENT COMMANDS
+-->	FORWARD(Pixels) , BACK/BACKWARD(Pixels) , LEFT(Angle) , RIGHT(Angle)
+--> Angles in Degrees. (By default): Use toRadians() and toDegrees() to switch
+
+Special Turn commands:
+-->	LeftDegs(angle),RightDegs(angle) :	Angle to turn mentioned in degrees irrespective of the settings.
+-->	LeftRads(angle),RightRads(angle) :	Angle to turn mentioned in radians irrespective of the settings.
+
+"Exit" at any time quits.
+
+USING VARIABLES (Not to confuse with USING VARIABLES/PARAMETERS IN FUNCTION - See Below)
+--> 	%VARNAME : eg %width, %x
+-->		Predefined variables (Constants) : width - screen_width , height: screen_height, PI: Mathematical_Constant
+-->	You cannot set variables by writing with '=' sign (eg. 'x=5'). Only Functions can be declared with '=' sign. For variables use set() (See below)
+
+SPECIAL Variables
+-->	'@X' and '@Y' (case sensitive) give the current x,y co-ordinates of the cursor.
+-->	'@XO' and '@YO' (case sensitive) give the current  x,y offset of the screen. (Read about offset below)
+-->	@PenState (not case-sensitive) gives the state of the pen as up/down.
+-->	@CENTRE (case-sensitive) gives the co-ordinates of the centre of the screen if the X-Axis is parallel to the horizontal, and -ve y-axis is upwards (i.e default state) (Read Below)
+-->	Note:	'!' operator can be used with 'up' or 'down' as !up -> down and !down -> up
+
+Statements can be separated by ';'. eg. forward(10) ; right(90)
+
+Writing strings:
+-->	write(str,x_coordinate,y_coordinate) :	Write the string at (x_coordinate,ycoordinate)
+	--> 	Note: Top left corner is the origin. Positive x-axis is to right, positive y-axis is downwards. Centre is at (400,300 because dimensions are 800x600)
+
+Changing Colour
+-->	setColor(color) : Sets the color to the given value. If not found ? (Leaves unchanged?)
+	-->	eg. setColor(red)
+
+SCROLLING
+-->	The drawing board consists of infinite drawing area. You can scroll using the scrollX(int) scrollY(int) , and offsetX(int) , offsetY(int) functions
+-->	The offset tells how far you are from the mean position, or initial screen (0,0).
+-->	Y-axis is NEGATIVE UPWARDS, and X-axis is POSITIVE TO THE RIGHT.
+-->	eg. 	scrollY(-400): scroll UP 400 px
+		scrollX(400):  scroll RIGHT 400 px
+		offsetX(300):  scroll to position such that x-coordinate of top corner 300 px to right of x-coordinate of initial position.
+AUTO-SCROLL
+-->	You can keep the focus constantly on the pen using the followPen()
+-->	The autofocus() allows you to freely draw on the screen, while focusing on pen if it leaves the boundaries of the screen.
+-->	To stop auto-follow use the staticScreen()
+-->	Note: Manually, you can focus on pen using the focus() method.
+
+Penup() allows you to move pen without drawing. Use pendown() to continue drawing
+-->	setPenState(Up/Down): can be used in replacement of the above.
+hidepen() hides the pen from view. Use showpen() to reveal it again.
+penerase() makes the pen start erasing instead of drawing. Use penwrite() to negate.
+
+setBackground(Colour) can be used to set the background of the screen. Note: ALL DRAWING ON THE SCREEN WILL BE ERASED.
+
+clear():	Clears the screen at any time. The pen will remain in its last spot. 
+
+print() and println()
+-->	Write text/numbers to the console. print() directly appends, while println() appends and goes to the next line.
+-->	eg. print(Hello)
+	    print(5+4) --> 9
+To purely write text to console without calculations eg. "5+4" use justPrint() and justPrintln()
+-->	justPrint(5+4) --> 5+4 OR
+-->	justPrintln(5+4)
+
+Go to a particular position
+-->	goto(x_coordinate,y_coordinate) : Moves Pen to (x_coordinate,y_coordinate) and draws a line from initial position to here.
+	--> 	eg. goto(400,300)
+	--> 	Note: The line drawn can be prevented by using goto in penup() mode.
+
+Face a particular direction
+-->	face(dir) : Turns to face the particular direction. 
+	-->	Direction in degrees by default. Use toRadians() and toDegrees() to switch.
+	--> 	eg. face(90) or face(%PI/2) for radians
+-->	faceDegs(dir):	Direction in degrees irrespective of settings.
+-->	faceRads(dir):	Direction in radians irrespective of settings.
+
+Standard Face commands:
+-->	faceUp(): Face the upwards direction.
+-->	faceDown():	Face the downward direction
+
+ROTATION OF AXES :
+-->	LOGO allows you to rotate axes while drawing. By default, positive x-axis is horizontal and increasing (+ve) towards the right.
+-->	You can use the rotateAxis(Angle) command to rotate the X-axis. eg. rotateAxis(90) (in degrees) will rotate the axes by 90 degrees (counter-clockwise) and now the x-axis will be positive upwards.
+-->	toRadians() and toDegrees() are also applicable to this function.
+-->	IMP: None of the drawings will move from their position, or be rotated about the origin. However, the pen will go to its new position on rotation.
+-->	
+
+Orientation of Y-Axis:
+-->	By default, the y-axis is positive downwards. You will notice that even on rotation, the x-axis will become negative to the right if it rotated to bring +ve y-axis upwards.
+-->	Thus, Orientation of Y-axis, or the angle made by Y-axis (+90 or -90 degrees) with positive x-axis can be set by setYAxis(true/false) method.
+-->	setYAxis(true) implies that the Y-axis is positive upwards when the X-axis is positive to the right. setAxis(false) imples that +ve Y-axis is downwards when positive X-axis is to right.
+-->	setYAxis(true/false) can be used as setYAxis(0/1) also. 0-false and 1-true
+
+Repeat 'n' times
+-->	n: statement1 ; statement 2 ; ...	: Will repeat the statements n times. eg. To draw a square of side=100px:-
+		4: forward(100) ; right(90)
+
+Looping
+-->	initial_value|final_value|step_value~statement1 ; statement2 ...	: Iterates from initial value to final value
+	-->	use current value with '$$' operation. eg. Looping from 1 to 100 and moving forward in equal amounts
+	--> 	1|100|1~forward($$)
+-->     Usage of '&' separator
+        --> The & character acts as a loop-terminator in multi-loop statements.
+        -->     eg. 1|5|1~ set(a,$$) ; 1|5|1~ println(%a*$$); & println(Table of %a)
+
+To draw filled shapes (rectangle/circle) pre-written functions are available which are more efficient than iterating.
+drawFilledRect(x,y,width,height) -->	x,y represent the co-ordinates of the left-upper corner of the rectangle.
+drawFilledCircle(x,y,radius) -->	x,y represent the co-ordinates of the centre of the circle.
+
+Assigning values to Variables (Set command)
+-->	Set(varname,varval) : assigns the the given value to a variable.
+-->	eg. set(x,50)
+
+Declaring a function
+-->	function_name(parameter1,parameter2...) = statement1 ; statement2  ... 
+-->	Using the parameters
+	-->	The parameters are used with the '$' sign. eg. drawSquare(size) = 4: forward($size) ; right(90)
+	-->	Parameter names may NOT CONTAIN ANY SPECIAL CHARACTERS (may contain only alphanumeric charaters).
+-->	You can also declare a function with no parameters. eg. standardSquare() = 4: forward(100) ; right(90)
+
+	Functions that return a value. (NON-VOID Methods)
+	-->	Functions that return a value can be declared. Using the rFxs();
+	-->	After using rFxs(). All functions then defined would be expected to return a value. (If none is specified, default is 0).
+	-->	eg. (After rFxs())	pwr(a,b) = return($a^$b)
+	-->	Variables in a returning function have their own variable space. They do not affect the system variables.
+	-->	To revert to declaring void (no return value) functions, use the Fxs() or vFxs() methods.
+	-->	Note:	Though non-void methods may not affect system variables, they can use them. Also, special variables can be used as usual.
+
+Using a void-function (Function that does NOT return a value)
+-->	function_name(parameter1,parameter2 ...)
+-->	Just type the name and pass the required parameters. 
+-->	Note:	If just function_name is passed it is automatically assumed to be a function with no parameters. eg. clear -> clear()
+--->	**Note:	Though functions that return values do not overwrite variables in logo, void functions WILL OVERWRITE VARIABLES if found matched by the same name.
+
+Run a prewritten script (Open a file)
+-->	open(path/to/file) in Linux or open(path\to\file) in Windows.
+-->	It is generally safer to provide the complete path to the file.
+-->	If a variable/function is being declared, it will last only until end of file execution. YOU WILL NOT BE ABLE TO USE THOSE FUNCTIONS OR VARIABLES.
+-->	To make permanent the declarations of variables/functions from a file, use localopen() instead of open()
+
+Save a position (Write all previously executed commands to a file)
+-->	save(/path/to/file) in Linux of save(path\to\file) in Windows.
+-->	If the file exists it will not be overwritten. Use save(/path/to/file,true) or save(/path/to/file,1) in Linux or save(path\to\file,true) or save(path\to\file,1) in Win.
+-->	Here the second parameter (1 or true) represents the boolean value asking if the file (if found) must be replaced. However LOGO will still inform you if a file is overwritten.
+
+Mathematical calulations
+-->	All basic operators i.e +,-,*,/,% are accepted.
+-->	use {} instead of () as brackets.
+-->	sin[], cos[], tan[], sec[], cosec[], cot[] are used for trigonometry.
+-->	asin[], acos[], atan[], acot[], asec[], acosec[] are used for inverse Trigonometry. 
+	(PLEASE NOTE THE 'SQUARE BRACKETS' AROUND THE FUNCTIONS)
+
+To recall commands
+-->	You can run the commands from previous by using the recall command.
+-->	eg. recall(4). Calls commands from beginning to 4th command.
+-->	eg. recall(5,10) . Calls commands from 5-10
+-->	eg. recall(-2). Calls the last two commands.
+-->	eg. recall(-5,-3). Calls commands from 5th last to third-last
+-->	Note:	history() is synonymus to recall
+-->	Note2:	Commands executed by recall are NOT added to command history in same order
+-->	Note3:	Commands which fail (due to exception or due to no function existing) are not written to history.
