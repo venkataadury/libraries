@@ -1,0 +1,58 @@
+#!/bin/bash
+minh()
+{
+if [ "$x" = "." ]; then
+x=`pwd`
+fi
+if test -z "$x"
+then
+re=`ls -lhQ `pwd`|grep '^d'|cut -d"\"" -f2`
+echo $re
+exit 0
+fi
+if test -d "$x" 
+then
+list=`ls -lhQ --color $x|grep '^d'|cut -d"\"" -f2`
+if test -z "$list"
+then
+echo "No Directories in $x"
+exit 0
+else
+setterm -bold on
+tput setaf 4
+echo $list
+tput setaf 9
+setterm -bold off
+exit 0
+fi
+else
+echo "ERROR: Folder - $x does not exist. See 'man sd' for more details"
+exit 1
+fi
+}
+x=$1
+opt=$2
+if [ "$opt" = "-h" ]; then
+minh
+fi
+if [ "$x" = "." ]; then
+x=`pwd`
+fi
+if test -z "$x"
+then
+ls -lhQ $HOME|grep '^d'|cut -d"\"" -f2
+else
+if test -d "$x" 
+then
+list=`ls -lhQ --color $x|grep '^d'|cut -d"\"" -f2`
+if test -z "$list"
+then
+echo "No Directories in $x"
+else
+ls -lhQ --color $x|grep '^d'|cut -d"\"" -f2
+fi
+else
+echo "ERROR: Folder - $x does not exist. See 'man sd' for more details"
+exit 1
+fi
+fi
